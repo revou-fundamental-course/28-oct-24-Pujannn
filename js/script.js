@@ -16,7 +16,7 @@ function displayResult(bmi, gender) {
     } else if (bmi >= 25 && bmi < 29.9) {
         explanationText = 'Anda memiliki berat badan berlebih.';
     } else {
-        explanationText = 'Anda mengalami obesitas.';
+        explanationText = 'Anda mengalami obesitas, rawan meninggal.';
     }
 
     document.getElementById('result').innerText = resultText;

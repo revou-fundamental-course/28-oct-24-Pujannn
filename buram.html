@@ -73,7 +73,7 @@
             <label for="weight">Berat (kg):</label>
             <input type="number" id="weight" required>
 
-            <label for="height">Tinggi (m):</label>
+            <label for="height">Tinggi (cm):</label>
             <input type="number" id="height" step="0.01" required>
 
             <label for="gender">Jenis Kelamin:</label>
@@ -90,6 +90,47 @@
         <div id="explanation" class="explanation"></div>
     </div>
 
-    <script src="js/script.js"></script>
+
+
+    <script>document.getElementById("bmiForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Menghindari pengiriman form
+    
+        // Ambil nilai dari input
+        const weight = parseFloat(document.getElementById("weight").value);
+        const heightInMeters = parseFloat(document.getElementById("height").value);
+        const gender = document.getElementById("gender").value;
+    
+        // Konversi tinggi dari meter ke sentimeter
+        const heightInCm = heightInMeters * 100; // Tinggi dalam cm
+    
+        // Hitung BMI menggunakan rumus BMI
+        // Rumus BMI: berat (kg) / (tinggi (m) * tinggi (m))
+        const bmi = weight / (heightInMeters * heightInMeters); // Tinggi tetap dalam meter untuk perhitungan
+    
+        let resultText = `BMI Anda adalah: ${bmi.toFixed(2)}`;
+        let explanationText = "";
+    
+        // Penjelasan berdasarkan nilai BMI
+        if (bmi < 18.5) {
+            explanationText = "Anda tergolong berat badan kurang.";
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            explanationText = "Anda tergolong berat badan normal.";
+        } else if (bmi >= 25 && bmi < 29.9) {
+            explanationText = "Anda tergolong berat badan berlebih.";
+        } else {
+            explanationText = "Anda tergolong obesitas.";
+        }
+    
+        // Tampilkan hasil dan penjelasan
+        document.getElementById("result").textContent = resultText;
+        document.getElementById("explanation").textContent = explanationText;
+    });
+    
+    // Mengatur ulang hasil saat tombol reset ditekan
+    document.getElementById("resetButton").addEventListener("click", function() {
+        document.getElementById("result").textContent = "";
+        document.getElementById("explanation").textContent = "";
+    });    
+    </script>
 </body>
 </html>
