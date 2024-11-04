@@ -1,0 +1,26 @@
+main{
+    display: flex;
+    justify-content: space-around;
+}
+
+
+input[type=text],
+select{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display:inline-block;
+    border-radius: 4px;
+    box-sizing: borde-box;
+}   
+
+.color-selection{
+    background-color:aliceblue ;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.text-center{
+    text-align: center;
+}
+
