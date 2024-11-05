@@ -5,64 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator BMI</title>
     <link rel="stylesheet" href="">
-    <style> 
-        body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
+    <style>
+        /* Reset margin dan padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
+        /* Gaya untuk body */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Gaya untuk container */
         .container {
             max-width: 400px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
+            font-size: 1.8em;
+            color: #333333;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin: 10px 0 5px;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #333333;
         }
 
         input, select {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #6a11cb;
+            outline: none;
         }
 
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #28a745;
+            padding: 12px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             color: white;
             border: none;
             border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
             cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
         }
 
         button:hover {
-            background-color: #218838;
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            transform: scale(1.05);
         }
 
         .result {
             margin-top: 20px;
             font-size: 1.2em;
-            text-align: center;
+            color: #333333;
+            font-weight: bold;
         }
 
         .explanation {
             margin-top: 10px;
-            font-size: 0.9em;
-            text-align: center;
+            font-size: 1em;
+            color: #666666;
         }
 
+        /* Animasi fade-in */
+        .result, .explanation {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .result.show, .explanation.show {
+            opacity: 1;
+        }
 
     </style>
 </head>
@@ -90,47 +129,41 @@
         <div id="explanation" class="explanation"></div>
     </div>
 
+    <script>
+        document.getElementById("bmiForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Menghindari pengiriman form
 
+            // Ambil nilai dari input
+            const weight = parseFloat(document.getElementById("weight").value);
+            const heightInMeters = parseFloat(document.getElementById("height").value) / 100;
+            const gender = document.getElementById("gender").value;
 
-    <script>document.getElementById("bmiForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Menghindari pengiriman form
-    
-        // Ambil nilai dari input
-        const weight = parseFloat(document.getElementById("weight").value);
-        const heightInMeters = parseFloat(document.getElementById("height").value);
-        const gender = document.getElementById("gender").value;
-    
-        // Konversi tinggi dari meter ke sentimeter
-        const heightInCm = heightInMeters * 100; // Tinggi dalam cm
-    
-        // Hitung BMI menggunakan rumus BMI
-        // Rumus BMI: berat (kg) / (tinggi (m) * tinggi (m))
-        const bmi = weight / (heightInMeters * heightInMeters); // Tinggi tetap dalam meter untuk perhitungan
-    
-        let resultText = `BMI Anda adalah: ${bmi.toFixed(2)}`;
-        let explanationText = "";
-    
-        // Penjelasan berdasarkan nilai BMI
-        if (bmi < 18.5) {
-            explanationText = "Anda tergolong berat badan kurang.";
-        } else if (bmi >= 18.5 && bmi < 24.9) {
-            explanationText = "Anda tergolong berat badan normal.";
-        } else if (bmi >= 25 && bmi < 29.9) {
-            explanationText = "Anda tergolong berat badan berlebih.";
-        } else {
-            explanationText = "Anda tergolong obesitas.";
-        }
-    
-        // Tampilkan hasil dan penjelasan
-        document.getElementById("result").textContent = resultText;
-        document.getElementById("explanation").textContent = explanationText;
-    });
-    
-    // Mengatur ulang hasil saat tombol reset ditekan
-    document.getElementById("resetButton").addEventListener("click", function() {
-        document.getElementById("result").textContent = "";
-        document.getElementById("explanation").textContent = "";
-    });    
+            // Hitung BMI menggunakan rumus BMI
+            const bmi = weight / (heightInMeters * heightInMeters); // Tinggi tetap dalam meter untuk perhitungan
+
+            let resultText = `BMI Anda adalah: ${bmi.toFixed(2)}`;
+            let explanationText = "";
+
+            // Penjelasan berdasarkan nilai BMI
+            if (bmi < 18.5) {
+                explanationText = "Anda tergolong berat badan kurang.";
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                explanationText = "Anda tergolong berat badan normal.";
+            } else if (bmi >= 25 && bmi < 29.9) {
+                explanationText = "Anda tergolong berat badan berlebih.";
+            } else {
+                explanationText = "Anda tergolong obesitas.";
+            }
+
+            // Tampilkan hasil dan penjelasan dengan efek fade-in
+            const resultElement = document.getElementById("result");
+            const explanationElement = document.getElementById("explanation");
+            resultElement.textContent = resultText;
+            explanationElement.textContent = explanationText;
+            
+            resultElement.classList.add("show");
+            explanationElement.classList.add("show");
+        });
     </script>
 </body>
 </html>
